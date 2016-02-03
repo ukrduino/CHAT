@@ -11,7 +11,14 @@ var favicon = require('serve-favicon');
 //HTTP request logger middleware
 var morgan = require('morgan');
 //Development-only error handler middleware
-var errorhandler = require('errorhandler');
+var errorHandler = require('errorhandler');
+// connecting routes from routes folder
+var routes = require('routes');
+// setting template engine
+var engine = require('ejs-mate');
+// static serving middleware
+var serveStatic = require('serve-static');
+
 
 // creating app
 var app = express();
@@ -23,7 +30,8 @@ server.listen(config.get('port'), function () {
     logger.info('App listens on port:' + config.get('port'));
 });
 
-// view engine setup
+// template  engine setup
+app.engine('ejs', engine);
 app.set('view engine', 'ejs');                        // template engine
 app.set('views', path.join(__dirname, 'templates'));  // templates folder
 
@@ -34,11 +42,9 @@ if (app.get('env') == 'development') {
     app.use(morgan('tiny'));
 }
 
-app.get('/', function(req, res) {
-    res.render('index',{
-        'body': "<b>HELLO!!!</b>"
-    });
-});
+app.use('/', routes);
+
+app.use(serveStatic(path.join(__dirname, 'public')));
 
 
 // error handler(function with four args, first is error)
@@ -47,7 +53,7 @@ app.get('/', function(req, res) {
 app.use(function (err, req, res, next) {
     //app.set('env', 'prod');
     if (process.env.NODE_ENV == 'development') {
-        var errorHandler = errorhandler();
+        var errorHandler = errorHandler();
         errorHandler(err, req, res, next);
     } else {
         res.sendStatus(500);

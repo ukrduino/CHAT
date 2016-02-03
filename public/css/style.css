@@ -1,0 +1,17 @@
+.mainBodyContainer{
+    margin-top: 60px;
+}
+
+.credentials{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#registerForm > button{
+    float: right;
+}
+
+.chat-body .message{
+    display: block;
+    font-size: 1.2em;
+}
