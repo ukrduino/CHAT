@@ -6,6 +6,7 @@ After adding winston you should add environment variable NODE_ENV=development   
 
 MongoDB instalation http://devcolibri.com/2091
 add to path MongoDB directory (f.e."c:\Program Files\MongoDB\Server\3.2\bin\")
+create dirs as in mongo.config file
 
 If you need install native MongoDB driver for node.js
 npm install mongodb --save (AS ADMINISTRATOR)
