@@ -1,3 +1,13 @@
 {
-  "port": 8000
+  "port": 8000,
+  "mongoose": {
+    "uri": "mongodb://localhost/chat",
+    "options": {
+      "server": {
+        "socketOptions": {
+          "keepAlive": 1
+        }
+      }
+    }
+  }
 }
