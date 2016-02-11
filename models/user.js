@@ -1,8 +1,9 @@
 var crypto = require('crypto');
 var mongoose = require('libs/mongoose');
-Schema = mongoose.Schema;
+var Schema = mongoose.Schema;
 
-var schema = new Schema({
+// define the userSchema
+var userSchema = new Schema({
     username: {
         type: String,
         unique: true,
@@ -22,7 +23,7 @@ var schema = new Schema({
     }
 });
 
-schema.virtual("password")
+userSchema.virtual("password")
     .set(function (password) {
             this._plainPassword = password;
             this.salt = Math.random() + '';
@@ -32,8 +33,9 @@ schema.virtual("password")
     return this._plainPassword;
 });
 
-schema.methods.encryptPassword = function (password) {
+userSchema.methods.encryptPassword = function (password) {
     return crypto.createHmac('sha1', this.salt).update(password).digest("hex");
 };
 
-exports.User = mongoose.model('User', schema);
+// Export the User model
+exports.User = mongoose.model('User', userSchema);
