@@ -33,9 +33,11 @@ server.listen(config.get('port'), function () {
 // template  engine setup
 app.engine('ejs', engine);
 app.set('view engine', 'ejs');                        // template engine
+
 app.set('views', path.join(__dirname, 'templates'));  // templates folder
 
 app.use(favicon(path.join(__dirname + '/public/favicon.ico')));
+
 if (app.get('env') == 'development') {
     app.use(morgan('dev'));
 } else {
@@ -45,17 +47,3 @@ if (app.get('env') == 'development') {
 app.use('/', routes);
 
 app.use(serveStatic(path.join(__dirname, 'public')));
-
-
-// error handler(function with four args, first is error)
-// NODE_ENV - environment variable can be set to 'development' or 'production'
-// if it not set we use app.get('env'), default set to development
-app.use(function (err, req, res, next) {
-    //app.set('env', 'prod');
-    if (process.env.NODE_ENV == 'development') {
-        var errorHandler = errorHandler();
-        errorHandler(err, req, res, next);
-    } else {
-        res.sendStatus(500);
-    }
-});

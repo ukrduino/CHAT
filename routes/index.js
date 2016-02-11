@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var User = require('models/user').User;
 
 /* GET home page. */
 router.get('/', function (req, res) {
@@ -19,6 +20,20 @@ router.get('/register', function (req, res) {
 /* GET lobby page. */
 router.get('/lobby', function (req, res) {
     res.render('LobbyPage.ejs', {});
+});
+
+/* GET all users. */
+router.get('/users', function (req, res) {
+    User.find({}, function (err, users) {
+        res.json(users);
+    })
+});
+
+/* GET user by id. */
+router.get('/user/:id', function (req, res) {
+    User.findById(req.params.id, function (err, user) {
+        res.json(user);
+    })
 });
 
 /* GET chat room page. */
