@@ -21,9 +21,9 @@ function dropDataBase(callback) {
 }
 
 function requireModels(callback) {
-    require('models/user');
-    async.each(Object.keys(mongoose.models), function (modelName, calback) {
-        mongoose.models[modelName].ensureIndexes(calback);
+    require('./models/user');
+    async.each(Object.keys(mongoose.models), function (modelName, callback) {
+        mongoose.models[modelName].ensureIndexes(callback);
     }, callback);
 }
 
