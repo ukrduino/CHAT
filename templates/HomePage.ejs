@@ -1,2 +1,4 @@
 <% layout('BasePage') %>
+<% if (user) { %>
 <h1>I am the <%= user.get("username") %></h1>
+<% } %>

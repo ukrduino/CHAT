@@ -1,4 +1,5 @@
 /* Logout */
 exports.post = function (req, res) {
-    res.render('LoginPage.ejs', {});
+    req.session.destroy();
+    res.redirect("/");
 };

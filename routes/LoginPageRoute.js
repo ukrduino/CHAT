@@ -5,7 +5,7 @@ var AuthError = require('../error').AuthError;
 
 /* GET login page. */
 exports.get = function (req, res) {
-    res.render('LoginPage.ejs', {});
+    res.render('LoginPage.ejs');
 };
 
 /*Process POST from login page*/
