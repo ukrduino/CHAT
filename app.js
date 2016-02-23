@@ -2,22 +2,31 @@
 var express = require('express');
 var http = require('http');
 var path = require('path');
+
 //configuration middleware (nconf)
 var config = require('./config');
+
 //logging middleware (winston)
 var logger = require('libs/log')(module);
+
 //favicon serving middleware
 var favicon = require('serve-favicon');
+
 //HTTP request logger middleware
 var morgan = require('morgan');
+
 //Development-only error handler middleware
 var errorHandler = require('errorhandler');
+
 // connecting routes from routes folder
 var routes = require('./routes');
+
 // setting template engine
 var engine = require('ejs-mate');
+
 // static serving middleware
 var serveStatic = require('serve-static');
+
 // custom HttpError handler
 var HttpError = require('./error').HttpError;
 
@@ -38,6 +47,11 @@ server.listen(config.get('port'), function () {
     logger.info('App listens on port:' + config.get('port'));
 });
 
+app.use(bodyParser.json());       // to support JSON-encoded bodies
+app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+    extended: true
+}));
+
 // template  engine setup
 app.engine('ejs', engine);
 app.set('view engine', 'ejs');                        // template engine
@@ -53,7 +67,6 @@ if (app.get('env') == 'development') {
     app.use(morgan('tiny'));
 }
 
-app.use(bodyParser());
 app.use(cookieParser());
 
 app.use(session(
@@ -61,7 +74,9 @@ app.use(session(
         secret: config.get('session:secret'), // ABCDE242342342314123421.SHA256
         key: config.get('session:key'),
         cookie: config.get('session:cookie'),
-        store: new MongoStore({mongooseConnection: mongoose.connection})
+        store: new MongoStore({mongooseConnection: mongoose.connection}),
+        resave: config.get('session:resave'), //https://github.com/expressjs/session#options
+        saveUninitialized: config.get('session:saveUninitialized') //https://github.com/expressjs/session#options
 
     }
 ));
@@ -90,7 +105,7 @@ app.use(function(err, req, res, next) {
         res.sendHttpError(err);
     } else {
         if (app.get('env') == 'development') {
-            errorHandler()(err, req, res, next);;
+            errorHandler()(err, req, res, next);
         } else {
             logger.error(err);
             err = new HttpError(500);

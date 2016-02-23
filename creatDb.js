@@ -10,16 +10,19 @@ async.series([open,
     console.log(arguments);
 });
 
+//Opening connection to db
 function open(callback) {
     mongoose.connection.on('open', callback);
 }
 
+//Deleting db
 function dropDataBase(callback) {
     var db = mongoose.connection.db;
     console.log(mongoose.connection.readyState);
     db.dropDatabase(callback);
 }
 
+// Creating indexes for each model
 function requireModels(callback) {
     require('./models/user');
     async.each(Object.keys(mongoose.models), function (modelName, callback) {
@@ -27,6 +30,7 @@ function requireModels(callback) {
     }, callback);
 }
 
+// Creating Users
 function createUsers(callback) {
     var users = [
         {username: 'Вася', password: 'secret'},
