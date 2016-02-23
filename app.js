@@ -88,6 +88,7 @@ app.use(session(
 
 // connecting custom middleware
 app.use(require('./middleware/sendHttpError'));
+app.use(require('./middleware/loadUser'));
 
 // connecting routs to application
 require('./routes')(app);
