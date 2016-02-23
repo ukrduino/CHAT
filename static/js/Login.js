@@ -12,7 +12,7 @@ $('#login-form').submit(function () {
         statusCode: {
             200: function () {
                 form.html("Вы вошли в сайт").addClass('alert-success');
-                //window.location.href = "/chat";
+                window.location.href = "/lobby";
             },
             403: function (jqXHR) {
                 var error = JSON.parse(jqXHR.responseText);
@@ -22,3 +22,10 @@ $('#login-form').submit(function () {
     });
     return false;
 });
+
+// Creating and submitting virtual form for "post" to /logout
+$('#logout-link').unbind().click(function () {
+        $('<form action="/logout" method="POST"></form>').submit();
+        return false
+    }
+);
