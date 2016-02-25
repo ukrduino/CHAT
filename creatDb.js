@@ -7,7 +7,6 @@ async.series([open,
     requireModels,
     createUsers], function (err) {
     mongoose.disconnect();
-    console.log(arguments);
 });
 
 //Opening connection to db
@@ -18,7 +17,9 @@ function open(callback) {
 //Deleting db
 function dropDataBase(callback) {
     var db = mongoose.connection.db;
-    console.log(mongoose.connection.readyState);
+    if (mongoose.connection.readyState == 1) {
+        console.log('mongoose connected to DB')
+    }
     db.dropDatabase(callback);
 }
 
@@ -33,9 +34,9 @@ function requireModels(callback) {
 // Creating Users
 function createUsers(callback) {
     var users = [
-        {username: 'Вася', password: 'secret'},
-        {username: 'Петя', password: 'badguy'},
-        {username: 'Админ', password: 'hero'}
+        {username: 'Вася', email: 'vasia@mail.ru', password: 'secret'},
+        {username: 'Петя', email: 'petya@mail.ru', password: 'badguy'},
+        {username: 'Админ', email: 'admin@mail.ru', password: 'hero'}
     ];
 
     async.each(users,

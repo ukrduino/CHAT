@@ -21,7 +21,6 @@ exports.post = function (req, res, next) {
             }
         }
         req.session.user = user._id;
-        console.log(req.session.user);
         res.status(200).end();
     });
 };

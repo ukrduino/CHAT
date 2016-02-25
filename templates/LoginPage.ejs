@@ -2,11 +2,13 @@
 <div class="col-lg-6 col-lg-offset-3">
     <form id="login-form">
         <h2 class="block-panel-heading">Sign in</h2>
-        <input name="username" type="email" class="form-control credentials" placeholder="Email address">
-        <input name="password" type="password" class="form-control credentials" placeholder="Password">
+        <input name="username" id="username" type="text" class="form-control credentials"
+               placeholder="Chat name / Email address">
+        <input name="password" id="password" type="password" class="form-control credentials" placeholder="Password">
         <label class="checkbox">
-            <input type="checkbox" value="remember-me"> Remember me
+            <input type="checkbox" id="remember-me" value="remember-me"> Remember me
         </label>
+        <p class="error alert-danger"></p>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
     </form>
     <div id="registerLink"><a href="/register">register</a></div>

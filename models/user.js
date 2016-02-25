@@ -12,6 +12,11 @@ var userSchema = new Schema({
         unique: true,
         required: true
     },
+    email: {
+        type: String,
+        unique: true,
+        required: true
+    },
     hashedPassword: {
         type: String,
         required: true
@@ -48,7 +53,7 @@ userSchema.statics.authorize = function (username, password, callback) {
     var User = this;
     async.waterfall([
         function (callback) {
-            User.findOne({username: username}, callback);
+            User.findOne({$or: [{username: username}, {email: username}]}, callback);
         },
         function (user, callback) {
             if (user) {
@@ -58,14 +63,19 @@ userSchema.statics.authorize = function (username, password, callback) {
                     callback(new AuthError("Wrong password"));
                 }
             } else {
-                user = new User({username: username, password: password});
-                user.save(function (err) {
-                    if (err)return callback(err);
-                    callback(null, user);
-                });
+                callback(new AuthError("User with such username/email is not found"));
             }
         }
     ], callback);
+};
+
+userSchema.statics.register = function (username, email, password, callback) {
+    var User = this;
+    user = new User({username: username, email: email, password: password});
+    user.save(function (err) {
+        if (err)return callback(err);
+        callback(null, user);
+    })
 };
 // Export the User model
 exports.User = mongoose.model('User', userSchema);

@@ -7,7 +7,11 @@
     margin-bottom: 20px;
 }
 
-#registerForm > button{
+#login-form > button {
+    float: right;
+}
+
+#registration-form > button {
     float: right;
 }
 
