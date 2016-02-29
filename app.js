@@ -97,6 +97,7 @@ require('./routes')(app);
 app.use(serveStatic(path.join(__dirname, 'static')));
 app.use('/user', serveStatic(path.join(__dirname, '/static')));
 app.use('/room', serveStatic(path.join(__dirname, '/static')));
+app.use('/lobby', serveStatic(path.join(__dirname, '/static')));
 
 // error handling
 app.use(function(err, req, res, next) {
