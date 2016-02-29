@@ -15,7 +15,8 @@ async.series([open,
     createUsers,
     createRooms,
     prepareCreateMessages,
-    createMessages
+    createMessages,
+    updateNumberOfMessages
 ], function (err) {
     mongoose.disconnect();
 });
@@ -132,7 +133,15 @@ function createMessages(callback) {
             message.save(callback);
         },
         callback);
+}
 
+function updateNumberOfMessages(callback) {
+    Room.find({}, function (err, rooms) {
+        async.each(rooms, function (room, callback) {
+                room.updateNumberOfMessages(callback);
+            },
+            callback);
+    });
 }
 
 // random integer in range {min, max}, including min and max

@@ -8,6 +8,7 @@ module.exports = function(app) {
     app.get('/register', require('./RegisterPageRoute').get);
     app.post('/register', require('./RegisterPageRoute').post);
     app.get('/lobby', checkAuth, require('./LobbyPageRoute').get);
+    app.get('/room/:id', checkAuth, require('./ChatRoomPageRoute').get);
     app.get('/users', require('./UsersRoute').get);
     app.get('/user/:id', require('./UserRoute').get);
 };
