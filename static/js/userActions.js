@@ -49,7 +49,8 @@ $('#registration-form').submit(function () {
 
 // Creating and submitting virtual form for "post" to /logout
 $('#logout-link').click(function () {
-        $('<form action="/logout" method="POST"></form>').submit();
+    var $form = $('<form action="/logout" method="POST"></form>');
+    $form.appendTo("body").submit();
         return false
     }
 );
