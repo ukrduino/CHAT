@@ -17,6 +17,10 @@ var messageSchema = new Schema({
         type: String,
         required: true
     },
+    messageUserColor: {
+        type: String,
+        required: true
+    },
     messageDate: {
         type: Date,
         default: Date.now()

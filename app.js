@@ -24,9 +24,6 @@ var routes = require('./routes');
 // setting template engine
 var engine = require('ejs-mate');
 
-// static serving middleware
-var serveStatic = require('serve-static');
-
 // custom HttpError handler
 var HttpError = require('./error').HttpError;
 
@@ -94,10 +91,7 @@ app.use(require('./middleware/loadUser'));
 require('./routes')(app);
 
 // setting path for static files
-app.use(serveStatic(path.join(__dirname, 'static')));
-app.use('/user', serveStatic(path.join(__dirname, '/static')));
-app.use('/room', serveStatic(path.join(__dirname, '/static')));
-app.use('/lobby', serveStatic(path.join(__dirname, '/static')));
+require('./static')(app);
 
 // error handling
 app.use(function(err, req, res, next) {

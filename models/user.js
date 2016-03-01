@@ -28,6 +28,9 @@ var userSchema = new Schema({
     dateOfCreation: {
         type: Date,
         default: Date.now()
+    },
+    colour: {
+        type: String
     }
 });
 
@@ -71,12 +74,18 @@ userSchema.statics.authorize = function (username, password, callback) {
 
 userSchema.statics.register = function (username, email, password, callback) {
     var User = this;
-    user = new User({username: username, email: email, password: password});
+    user = new User({username: username, email: email, password: password, colour: User.generateUserColour()});
     user.save(function (err) {
         if (err)return callback(err);
         callback(null, user);
     })
 };
+
+userSchema.statics.generateUserColour = function () {
+    console.log(222);
+    return '#' + Math.random().toString(16).substr(2, 6);
+};
+
 // Export the User model
 exports.User = mongoose.model('User', userSchema);
 

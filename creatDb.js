@@ -5,8 +5,6 @@ var User = require('./models/user').User;
 var Room = require('./models/room').Room;
 var Message = require('./models/message').Message;
 var stringsForMessages = [];
-var roomsIds = [];
-var usersIds = [];
 
 
 async.series([open,
@@ -14,8 +12,7 @@ async.series([open,
     requireModels,
     createUsers,
     createRooms,
-    prepareCreateMessages,
-    createMessages,
+    prepareAndCreateMessages,
     updateNumberOfMessages
 ], function (err) {
     mongoose.disconnect();
@@ -48,11 +45,11 @@ function requireModels(callback) {
 // Creating Users
 function createUsers(callback) {
     var users = [
-        {username: 'Вася', email: 'vasia@mail.ru', password: 'secret'},
-        {username: 'Петя', email: 'petya@mail.ru', password: 'badguy'},
-        {username: 'Админ', email: 'admin@mail.ru', password: 'hero'}
+        {username: 'Вася', email: 'vasia@mail.ru', password: 'secret', colour: User.generateUserColour()},
+        {username: 'Петя', email: 'petya@mail.ru', password: 'badguy', colour: User.generateUserColour()},
+        {username: 'Админ', email: 'admin@mail.ru', password: 'hero', colour: User.generateUserColour()}
     ];
-
+    console.log(users);
     async.each(users,
         function (userDetails, callback) {
             var user = new User(userDetails);
@@ -90,7 +87,7 @@ function createRooms(callback) {
 }
 
 // Preparing data for creating messages
-function prepareCreateMessages(callback) {
+function prepareAndCreateMessages(callback) {
     for (var i = 0, t = 40; i < t; i++) {
         stringsForMessages.push(Math.random().toString(36).slice(-12))
     }
@@ -108,29 +105,29 @@ function prepareCreateMessages(callback) {
             }
         },
         function (e, results) {
-            getUsersAndRoomsIds(results.users, results.rooms, callback)
+            createMessages(results.users, results.rooms, callback)
         },
         callback);
 }
 
-function getUsersAndRoomsIds(users, rooms, callback) {
-    for (var i = 0; i < users.length; i++) {
-        usersIds.push(users[i]._id);
-    }
-    for (var j = 0; j < rooms.length; j++) {
-        roomsIds.push(rooms[j]._id);
-    }
-    callback();
-}
-
-function createMessages(callback) {
+function createMessages(users, rooms, callback) {
+    console.log(users);
+    console.log(rooms);
     async.each(stringsForMessages, function (string, callback) {
+            var user = users[randomInt(0, users.length - 1)];
             var message = new Message({
                 messageText: string,
-                messageRoom: roomsIds[randomInt(0, roomsIds.length - 1)],
-                messageUser: usersIds[randomInt(0, usersIds.length - 1)]
+                messageRoom: rooms[randomInt(0, rooms.length - 1)]._id,
+                messageUser: user.username,
+                messageUserColor: user.colour
             });
-            message.save(callback);
+            message.save(function (err, message) {
+                if (err) {
+                    console.log(err);
+                }
+                console.log(message);
+                callback();
+            });
         },
         callback);
 }
@@ -148,3 +145,5 @@ function updateNumberOfMessages(callback) {
 function randomInt(min, max) {
     return Math.floor(Math.random() * (max + 1 - min) + min);
 }
+
+// random color for user in chat
