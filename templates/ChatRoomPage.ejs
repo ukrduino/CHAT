@@ -1,12 +1,35 @@
 <% layout('BasePage') %>
 
-<h2 class="block-panel-heading"><%= room.roomName %></h2>
 <div class="panel panel-default">
-    <div class="panel-body chat-body">
+    <div class="panel-heading">
+        <h3 class="block-panel-heading"><%= room.roomName %></h3>
+    </div>
+    <div class="panel-body" id="messages">
         <% for(var i = 0; i < messages.length; i++) { %>
-        <span class="message"><span class="user"
-                                    style="color: <%= messages[i].messageUserColor %>"><%= messages[i].messageUser %></span>: <%= messages[i].messageText %></span>
+        <span class="message">
+                <span class="user" style="color: <%= messages[i].messageUserColor %>">
+                    <%= messages[i].messageUser %>
+                </span>
+                : <%= messages[i].messageText %>
+            </span>
         <% } %>
     </div>
+    <div class="panel-footer">
+        <form action="">
+            <div class="form-group" style="text-align: right">
+                <div class="input-group">
+                    <input type="text" class="form-control" id="newMessage" autocomplete="off">
+                <span class="input-group-btn">
+                    <button class="btn btn-success">Send</button>
+                </span>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
+
+<script src="js/jquery-1.12.0.js"></script>
+<script src="js/socket.io.js"></script>
+<script src="js/mySocket.js"></script>
+
 

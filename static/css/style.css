@@ -7,15 +7,7 @@
     margin-bottom: 20px;
 }
 
-#login-form > button {
-    float: right;
-}
-
-#registration-form > button {
-    float: right;
-}
-
-.chat-body .message{
+.panel-body .message {
     display: block;
     font-size: 1.2em;
 }

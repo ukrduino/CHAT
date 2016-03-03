@@ -44,6 +44,16 @@ server.listen(config.get('port'), function () {
     logger.info('App listens on port:' + config.get('port'));
 });
 
+// creating socket
+var mySocket = require('socket.io')(server);
+
+mySocket.on('connection', function (socket) {
+    console.log('a user connected');
+    socket.on('chat message', function (msg) {
+        console.log('message: ' + msg);
+    });
+});
+
 app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
     extended: true
@@ -94,7 +104,7 @@ require('./routes')(app);
 require('./static')(app);
 
 // error handling
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
     if (typeof err == 'number') { // next(404);
         err = new HttpError(err);
     }

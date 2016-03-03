@@ -21,6 +21,7 @@
     "nconf": "*",
     "serve-favicon": "*",
     "serve-static": "*",
+    "socket.io": "*",
     "winston": "*"
   }
 }
