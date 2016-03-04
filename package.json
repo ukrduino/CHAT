@@ -9,6 +9,7 @@
     "async": "*",
     "body-parser": "*",
     "connect-mongo": "*",
+    "cookie": "*",
     "cookie-parser": "*",
     "ejs": "*",
     "ejs-mate": "*",

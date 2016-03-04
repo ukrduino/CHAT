@@ -45,9 +45,9 @@ function requireModels(callback) {
 // Creating Users
 function createUsers(callback) {
     var users = [
-        {username: 'Вася', email: 'vasia@mail.ru', password: 'secret', colour: User.generateUserColour()},
-        {username: 'Петя', email: 'petya@mail.ru', password: 'badguy', colour: User.generateUserColour()},
-        {username: 'Админ', email: 'admin@mail.ru', password: 'hero', colour: User.generateUserColour()}
+        {username: 'Вася', email: 'vasia@mail.ru', password: 'secret', color: User.generateUserColor()},
+        {username: 'Петя', email: 'petya@mail.ru', password: 'badguy', color: User.generateUserColor()},
+        {username: 'Админ', email: 'admin@mail.ru', password: 'hero', color: User.generateUserColor()}
     ];
     console.log(users);
     async.each(users,
@@ -111,8 +111,6 @@ function prepareAndCreateMessages(callback) {
 }
 
 function createMessages(users, rooms, callback) {
-    console.log(users);
-    console.log(rooms);
     async.each(stringsForMessages, function (string, callback) {
             var user = users[randomInt(0, users.length - 1)];
             var message = new Message({

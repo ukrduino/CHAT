@@ -31,8 +31,6 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var mongoose = require('libs/mongoose');
-var MongoStore = require('connect-mongo')(session);
-
 
 // creating app
 var app = express();
@@ -70,12 +68,14 @@ if (app.get('env') == 'development') {
 
 app.use(cookieParser());
 
+var sessionStore = require('./libs/sessionStore');
+
 app.use(session(
     {
         secret: config.get('session:secret'), // ABCDE242342342314123421.SHA256
         key: config.get('session:key'),
         cookie: config.get('session:cookie'),
-        store: new MongoStore({mongooseConnection: mongoose.connection}),
+        store: sessionStore,
         resave: config.get('session:resave'), //https://github.com/expressjs/session#options
         saveUninitialized: config.get('session:saveUninitialized') //https://github.com/expressjs/session#options
 

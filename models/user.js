@@ -29,7 +29,7 @@ var userSchema = new Schema({
         type: Date,
         default: Date.now()
     },
-    colour: {
+    color: {
         type: String
     }
 });
@@ -74,14 +74,14 @@ userSchema.statics.authorize = function (username, password, callback) {
 
 userSchema.statics.register = function (username, email, password, callback) {
     var User = this;
-    user = new User({username: username, email: email, password: password, colour: User.generateUserColour()});
+    user = new User({username: username, email: email, password: password, color: User.generateUserColor()});
     user.save(function (err) {
         if (err)return callback(err);
         callback(null, user);
     })
 };
 
-userSchema.statics.generateUserColour = function () {
+userSchema.statics.generateUserColor = function () {
     console.log(222);
     return '#' + Math.random().toString(16).substr(2, 6);
 };
