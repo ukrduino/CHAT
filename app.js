@@ -44,15 +44,9 @@ server.listen(config.get('port'), function () {
     logger.info('App listens on port:' + config.get('port'));
 });
 
-// creating socket
-var mySocket = require('socket.io')(server);
+// creating server socket
+require('./libs/serverSocket')(server);
 
-mySocket.on('connection', function (socket) {
-    console.log('a user connected');
-    socket.on('chat message', function (msg) {
-        console.log('message: ' + msg);
-    });
-});
 
 app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({     // to support URL-encoded bodies

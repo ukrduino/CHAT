@@ -11,3 +11,13 @@
     display: block;
     font-size: 1.2em;
 }
+
+.messageUser {
+    color: blue;
+    font-weight: 600
+}
+
+.messageUserMe {
+    color: red;
+    font-weight: 600
+}
