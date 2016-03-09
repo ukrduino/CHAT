@@ -1,4 +1,5 @@
 // initialising client socket
+// Client
 var socket = io();
 
 $('form').submit(function () {
@@ -33,4 +34,22 @@ $(function () {
             $(this).text("ME : ");
         }
     })
+});
+
+$('#file').change(function (e) {
+    var file = e.target.files[0];
+    console.log('uploading...', file.name);
+    var stream = ss.createStream();
+    var blobStream = ss.createBlobReadStream(file);
+
+    blobStream.on('data', function (chunk) {
+        console.log('data chunk.length:', chunk.length);
+    });
+
+    blobStream.on('end', function () {
+        console.log('end');
+    });
+
+    ss(socket).emit('file upload', stream, file.name);
+    blobStream.pipe(stream);
 });

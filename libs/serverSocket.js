@@ -6,10 +6,13 @@ var config = require('../config');
 var User = require('../models/user').User;
 var Message = require('../models/message').Message;
 var Room = require('../models/room').Room;
+var fs = require('fs');
+var path = require('path');
 
 
 module.exports = function (server) {
     var io = require('socket.io')(server);
+    var ss = require('socket.io-stream');
     io.set('authorization', function (handshake, accept) {
         async.waterfall([
             // get sid cookie from handshake
@@ -74,9 +77,10 @@ module.exports = function (server) {
                     socket.broadcast.emit('chat message', message);
                     cb("Received");
                 });
-
             });
-
+        });
+        ss(socket).on('file upload', function (stream, fileName) {
+            stream.pipe(fs.createWriteStream("./static/uploadedFiles/" + fileName));
         });
     });
 };
@@ -97,14 +101,14 @@ function loadUser(session, callback) {
         console.log("Session %s is anonymous", session.id);
         return callback(null, null);
     }
-    console.log("retrieving user by id:  ", session.user);
+    //console.log("retrieving user by id:  ", session.user);
     User.findById(session.user, function (err, user) {
         if (err) return callback(err);
 
         if (!user) {
             return callback(null, null);
         }
-        console.log("user findbyId result: " + user.username);
+        //console.log("user findbyId result: " + user.username);
         callback(null, user);
     });
 }

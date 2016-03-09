@@ -23,6 +23,7 @@
     "serve-favicon": "*",
     "serve-static": "*",
     "socket.io": "*",
+    "socket.io-stream": "*",
     "winston": "*"
   }
 }
