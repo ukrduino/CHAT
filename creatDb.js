@@ -117,7 +117,7 @@ function createMessages(users, rooms, callback) {
                 messageText: string,
                 messageRoom: rooms[randomInt(0, rooms.length - 1)]._id,
                 messageUser: user.username,
-                messageUserColor: user.colour
+                messageUserColor: user.color
             });
             message.save(function (err, message) {
                 if (err) {

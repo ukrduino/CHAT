@@ -7,7 +7,7 @@ var util = require('util');
 var messageSchema = new Schema({
     messageText: {
         type: String,
-        required: true
+        default: null
     },
     messageRoom: {
         type: String,
@@ -24,6 +24,10 @@ var messageSchema = new Schema({
     messageDate: {
         type: Date,
         default: Date.now()
+    },
+    messageFile: {
+        type: String,
+        default: null
     }
 });
 

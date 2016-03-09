@@ -8,6 +8,7 @@ var Message = require('../models/message').Message;
 var Room = require('../models/room').Room;
 var fs = require('fs');
 var path = require('path');
+var HttpError = require('../error').HttpError;
 
 
 module.exports = function (server) {
@@ -67,7 +68,8 @@ module.exports = function (server) {
                     messageText: msg.messageText,
                     messageRoom: room._id,
                     messageUser: username,
-                    messageUserColor: messageUserColor
+                    messageUserColor: messageUserColor,
+                    messageFile: msg.messageFile
                 });
                 message.save(function (err, message) {
                     if (err) {
@@ -82,6 +84,9 @@ module.exports = function (server) {
         ss(socket).on('file upload', function (stream, fileName) {
             stream.pipe(fs.createWriteStream("./static/uploadedFiles/" + fileName));
         });
+        //ss(socket).on('file download', function(stream, fileName) {
+        //    fs.createReadStream("./static/uploadedFiles/" + fileName).pipe(stream);
+        //});
     });
 };
 
@@ -97,6 +102,9 @@ function loadSession(sid, callback) {
 }
 
 function loadUser(session, callback) {
+    if (!session) {
+        return callback(null, null);
+    }
     if (!session.user) {
         console.log("Session %s is anonymous", session.id);
         return callback(null, null);

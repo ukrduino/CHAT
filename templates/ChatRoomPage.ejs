@@ -11,6 +11,11 @@
                     <%= messages[i].messageUser %>
                 </span>
                 : <%= messages[i].messageText %>
+            <% if(messages[i].messageFile) { %>
+            <a href="#" class="messageFile">
+                <%= messages[i].messageFile %>
+            </a>
+            <% } %>
             </span>
         <% } %>
     </div>
